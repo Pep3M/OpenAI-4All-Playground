@@ -5,13 +5,18 @@ import { colorPrimary, colorSecundary } from "../../../styles/styles";
 import DotMovement from "../../loaders/DotMovement";
 
 const riseMsgAnimation = keyframes`
-  from {
-    width: 0px;
+  0% {
+    top: 20px;
+    opacity: 0;
   }
-  to {
-    width: fit-content;
+  100% {
+    top: 0;
+    opacity: 1;
   }
 `;
+/* animation-name: ${riseMsgAnimation};
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1); */
 
 const MessagePaper = styled(Paper)`
   padding: 8px;
@@ -39,8 +44,8 @@ const MessagePaper = styled(Paper)`
   }
 `;
 
-const Message = ({ text = "", type = "question" }) => {
-  if (!text && type !=='loader') return <></>;
+const Message = ({ text = "", type = "question"}) => {
+  if (!text && type !== "loader") return <></>;
   return (
     <Box
       sx={{
@@ -51,7 +56,7 @@ const Message = ({ text = "", type = "question" }) => {
         justifyContent: type === "question" ? "flex-start" : "flex-end"
       }}
     >
-      <MessagePaper type={type}>
+      <MessagePaper type={type} >
         {type === "loader" ? (
           <DotMovement />
         ) : (
