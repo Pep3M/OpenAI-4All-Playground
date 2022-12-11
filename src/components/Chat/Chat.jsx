@@ -31,10 +31,6 @@ const Chat = () => {
   //functions and handlers
   const getDialogId = (newId = false) => {
     if (newId) idRef.current += 1;
-    console.log(
-      "🚀 ~ file: Chat.jsx:34 ~ getDialogId ~ idRef.current",
-      idRef.current
-    );
     return idRef.current;
   };
 
@@ -85,7 +81,7 @@ const Chat = () => {
           type: "response"
         });
       });
-      console.log("🚀 ~ file: Chat.jsx:77 ~ useEffect ~ newDialog", newDialog);
+      
       setDialog(newDialog);
     }
 
@@ -106,8 +102,6 @@ const Chat = () => {
       setDialog(newDialog);
     }
   }, [loading]);
-
-  console.log(dialog);
 
   return (
     <Card
