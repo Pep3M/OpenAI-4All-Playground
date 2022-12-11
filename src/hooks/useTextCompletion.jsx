@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const URL_API = "http://localhost:3131/";
+const URL_API = "https://openai4all.onrender.com/";
 
 function useTextCompletion() {
   const [input, setInput] = useState({});
@@ -32,9 +32,9 @@ function useTextCompletion() {
         let dataResp = response.data.choices[0].text;
         dataResp = dataResp.split("\n");
         let dataFormatted = [];
-        let id = idInput
+        let id = idInput;
         dataResp.forEach((resp) => {
-          id += 1
+          id += 1;
           dataFormatted.push({
             id,
             text: resp
