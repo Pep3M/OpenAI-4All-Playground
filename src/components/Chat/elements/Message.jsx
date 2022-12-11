@@ -39,14 +39,14 @@ const MessagePaper = styled(Paper)`
   }
 `;
 
-const Message = ({ text = "", type = "question", loading = false }) => {
-  if (!text) return <></>;
+const Message = ({ text = "", type = "question" }) => {
+  if (!text && type !=='loader') return <></>;
   return (
     <Box
       sx={{
         mt: 1,
         width: "100%",
-        display: loading ? "none" : "flex",
+        display: "flex",
         flexWrap: "wrap",
         justifyContent: type === "question" ? "flex-start" : "flex-end"
       }}

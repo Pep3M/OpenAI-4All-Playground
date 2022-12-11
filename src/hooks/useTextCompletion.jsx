@@ -4,42 +4,52 @@ import axios from "axios";
 const URL_API = "http://localhost:3131/";
 
 function useTextCompletion() {
-  const [input, setInput] = useState("");
-  const [response, setResponse] = useState(null);
+  const [input, setInput] = useState({});
+  const [response, setResponse] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     async function sendMessageToChatGPT(message) {
-      setLoading(true)
+      const idInput = input.id;
+      setLoading(true);
+      setError(false);
       try {
         const options = {
           method: "POST",
           url: URL_API + "v1/completions",
           headers: { "Content-Type": "application/json" },
-          data: { message: input }
+          data: { message: input.text }
         };
         const response = await axios.request(options);
 
         if (response?.data?.error) {
-          setResponse('');
+          setResponse("");
           setError(response.data.error);
-          return
+          return;
         }
 
-        let textResp = response.data.choices[0].text
-        textResp = textResp.split('\n')
-
-        setResponse(textResp);
-        console.log(textResp);
-        setInput("");
+        let dataResp = response.data.choices[0].text;
+        dataResp = dataResp.split("\n");
+        let dataFormatted = [];
+        let id = idInput
+        dataResp.forEach((resp) => {
+          id += 1
+          dataFormatted.push({
+            id,
+            text: resp
+          });
+        });
+        
+        setResponse(dataFormatted);
+        setInput({ id: 0, text: "" });
       } catch (error) {
         setError(error);
       }
       setLoading(false);
     }
 
-    if (input) sendMessageToChatGPT(input);
+    if (input.text) sendMessageToChatGPT(input);
   }, [input]);
 
   return { response, loading, error, setInput };

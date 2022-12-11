@@ -14,6 +14,7 @@ import Message from "./elements/Message";
 import useTextCompletion from "../../hooks/useTextCompletion";
 
 const Chat = () => {
+  //states
   const [state, setState] = useState({
     question: "",
     answer: ""
@@ -21,7 +22,21 @@ const Chat = () => {
   const [dialog, setDialog] = useState([]);
   const refInputQuestion = useRef(null);
 
+  //custom hooks
   const { response, error, loading, setInput } = useTextCompletion();
+
+  //ref
+  const idRef = useRef(0);
+
+  //functions and handlers
+  const getDialogId = (newId = false) => {
+    if (newId) idRef.current += 1;
+    console.log(
+      "🚀 ~ file: Chat.jsx:34 ~ getDialogId ~ idRef.current",
+      idRef.current
+    );
+    return idRef.current;
+  };
 
   const handleTextChange = (e) => {
     setState((prev) => ({
@@ -42,17 +57,20 @@ const Chat = () => {
       question: ""
     }));
 
+    //add new question
     let newDialog = [...dialog];
     newDialog.unshift({
+      id: getDialogId(true),
       text: textToSend,
       type: "question"
     });
-
     setDialog(newDialog);
 
-    setInput(textToSend);
+    //sending a question to hook
+    setInput({ id: getDialogId(true), text: textToSend });
   };
 
+  //useEffects
   useEffect(() => {
     refInputQuestion.current.focus();
   }, []);
@@ -61,17 +79,35 @@ const Chat = () => {
     if (response) {
       let newDialog = [...dialog];
 
-      response.forEach((text) => {
+      response.forEach((data) => {
         newDialog.unshift({
-          text: text,
+          ...data,
           type: "response"
         });
       });
+      console.log("🚀 ~ file: Chat.jsx:77 ~ useEffect ~ newDialog", newDialog);
       setDialog(newDialog);
     }
 
     if (error) console.log(error);
   }, [response, error]);
+
+  useEffect(() => {
+    if (loading) {
+      let newDialog = [...dialog];
+      newDialog.unshift({
+        id: getDialogId(),
+        text: "",
+        type: "loader"
+      });
+      setDialog(newDialog);
+    } else {
+      let newDialog = dialog.filter((item) => item.type !== "loader");
+      setDialog(newDialog);
+    }
+  }, [loading]);
+
+  console.log(dialog);
 
   return (
     <Card
@@ -98,7 +134,7 @@ const Chat = () => {
         }}
       >
         {dialog.map((d, key) => (
-          <Message key={key} text={d.text} type={d.type}/>
+          <Message key={key} text={d.text} type={d.type} />
         ))}
 
         {/* loading ? <DotMovement color={colorSecundary} show={true}/> : null */}

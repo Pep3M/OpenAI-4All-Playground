@@ -27,7 +27,7 @@ const ellipsis3 = keyframes`
 
 const MainContainer = styled.div`
   width: 80px;
-  aspect-ratio: 1;
+  //aspect-ratio: 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,11 +35,11 @@ const MainContainer = styled.div`
     display: inline-block;
     position: relative;
     width: 80px;
-    height: 80px;
+    height: 22px;
   }
   .dots-ellipsis div {
     position: absolute;
-    top: 53px;
+    top: 5px;
     width: 13px;
     height: 13px;
     border-radius: 50%;
@@ -64,7 +64,7 @@ const MainContainer = styled.div`
   }
 `;
 
-const DotMovement = ({ color='blue', show=true }) => {
+const DotMovement = ({ color='white', show=true }) => {
   return (
     <MainContainer color={color} show={show}>
       <div className="dots-ellipsis">
