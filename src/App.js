@@ -28,6 +28,9 @@ function App() {
         }}
       >
         <Chat />
+        <Typography variant="subtitle2" color="primary" sx={{pt:2}}>
+          Powered by <a href="https://github.com/Pep3M">Pep3M</a>
+        </Typography>
       </Box>
     </div>
   );
