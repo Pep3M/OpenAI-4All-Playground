@@ -138,13 +138,14 @@ const Chat = () => {
         sx={{ flexShrink: 0, mt: 2, width: "100%", backgroundColor: "white" }}
         variant="outlined"
       >
-        <InputLabel htmlFor="question">You question</InputLabel>
+        <InputLabel htmlFor="question">Escríbele algo a la IA</InputLabel>
         <OutlinedInput
           inputRef={refInputQuestion}
           id="question"
-          label="You question"
+          label="Escríbele algo a la IA"
           type="text"
           color="primary"
+          autoComplete="off"
           value={state.question}
           onChange={handleTextChange}
           onKeyUp={(e) => {
