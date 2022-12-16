@@ -1,5 +1,6 @@
 import { Box, Toolbar, Typography } from "@mui/material";
 import Chat from "./components/Chat/Chat";
+import ImageGenerator from "./components/ImageGenerator/ImageGenerator";
 
 function App() {
   return (
@@ -27,7 +28,8 @@ function App() {
           background: "linear-gradient(0deg, #FFFFFF 0%, #EEEEEE 100%)"
         }}
       >
-        <Chat />
+        {/* <Chat /> */}
+        <ImageGenerator />
         <Typography variant="subtitle2" color="primary" sx={{pt:2}}>
           Powered by <a href="https://github.com/Pep3M">Pep3M</a>
         </Typography>
