@@ -1,4 +1,4 @@
-const URL_API = "http://localhost:3131/"; //"https://openai4all.onrender.com/";
+const URL_API = "https://openai4all.onrender.com/";
 
 export const imageRequest = (message = "") => {
   

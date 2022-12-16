@@ -70,7 +70,7 @@ const ImageGenerator = () => {
     <Box
       sx={{
         width: "90%",
-        height: "calc(100% - 50px)",
+        height: "100%",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -81,7 +81,7 @@ const ImageGenerator = () => {
       }}
     >
       <FormControl
-        sx={{ flexShrink: 0, mt: 2, width: "100%", backgroundColor: "white" }}
+        sx={{ flexShrink: 0, mt: 0, width: "100%", backgroundColor: "white" }}
         variant="outlined"
         disabled={isLoading}
       >

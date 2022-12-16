@@ -107,13 +107,14 @@ const Chat = () => {
     <Card
       sx={{
         width: "90%",
-        height: "100%",
+        height: "calc(100% - 48px)",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         minWidth: 275,
         maxWidth: 1000,
-        padding: 3
+        padding: 3,
+        marginInline: 3
       }}
     >
       <Container

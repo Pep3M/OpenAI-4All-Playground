@@ -8,15 +8,12 @@ function useAPI() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    console.log('Call useEffect API');
     const fetchData = async () => {
       setIsLoading(true);
-      console.log('Initializing...');
       try {
         const res = await axios.request(options);
         setResponse(res.data);
-        setIsLoading(false);
-        console.log('Request done!');        
+        setIsLoading(false);     
       } catch (error) {
         setError(error);
         setIsLoading(false);
