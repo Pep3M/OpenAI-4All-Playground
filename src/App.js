@@ -9,7 +9,6 @@ import { useState } from "react";
 import Chat from "./components/Chat/Chat";
 import ImageGenerator from "./components/ImageGenerator/ImageGenerator";
 import MenuIcon from "@mui/icons-material/Menu";
-import DrawerMenu from "./components/Navigation/Drawer/DrawerMenu";
 import Navigation from "./components/Navigation/Navigation";
 
 const ShowModule = ({ moduleAct }) => {
