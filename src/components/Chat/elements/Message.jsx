@@ -3,6 +3,7 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 import { colorPrimary, colorSecundary } from "../../../styles/styles";
 import DotMovement from "../../loaders/DotMovement";
+import BlockCode from "./BlockCode";
 
 const riseMsgAnimation = keyframes`
   0% {
@@ -50,11 +51,7 @@ const MessageContent = ({ data }) => {
       {data.map((item, i) => {
         switch (item.type) {
           case "code":
-            return (
-              <pre>
-                <code>{item.content}</code>
-              </pre>
-            );
+            return <BlockCode code={item.content} />
 
           default:
             return item.content ? (
@@ -74,11 +71,9 @@ const Message = ({ text = "", type = "question" }) => {
   if (!text && type !== "loader") return <></>;
 
   const formatText = () => {
-    //const reParse = `${text.trim().split("\n").join("\n")}`;
     let string = text.trim();
     const reg = /<code>(.*?)<\/code>/gs;
 
-    const match = string.match(reg) || [];
     const splited = string.split(reg).filter((item) => item);
     let isCode = string.search(reg) === 0;
 
@@ -92,25 +87,9 @@ const Message = ({ text = "", type = "question" }) => {
       isCode = !isCode;
     });
 
-    console.log(`Hay ${match.length} bloques de codigo:`, text);
-    
-    /* let result = match.map((val) => {
-      if (val.includes("<code>")) {
-        return {
-          type: "code",
-          content: val.replace(/<code>|<\/code>/g, "")
-        };
-      } else {
-        return {
-          type: "text",
-          content: val
-        };
-      }
-    }); */
     return result;
   };
 
-  //console.log("formatText", formatText());
   return (
     <Box
       sx={{
