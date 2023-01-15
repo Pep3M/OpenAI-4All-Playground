@@ -3,6 +3,8 @@ import axios from "axios";
 
 const URL_API = "https://openai4all.onrender.com/";
 
+const codeRequest = '. Si tu respuesta incluyo algo con codigo, redealo con un <code> y </code>, si no ignora esto'
+
 function useTextCompletion() {
   const [input, setInput] = useState({});
   const [response, setResponse] = useState([]);
@@ -19,7 +21,7 @@ function useTextCompletion() {
           method: "POST",
           url: URL_API + "v1/completions",
           headers: { "Content-Type": "application/json" },
-          data: { message: input.text }
+          data: { message: input.text + codeRequest }
         };
         const response = await axios.request(options);
 
@@ -30,16 +32,16 @@ function useTextCompletion() {
         }
 
         let dataResp = response.data.choices[0].text;
-        dataResp = dataResp.split("\n");
+        //dataResp = dataResp.split("\n");
         let dataFormatted = [];
         let id = idInput;
-        dataResp.forEach((resp) => {
+        //dataResp.forEach((resp) => {
           id += 1;
           dataFormatted.push({
             id,
-            text: resp
+            text: dataResp
           });
-        });
+        //});
         
         setResponse(dataFormatted);
         setInput({ id: 0, text: "" });

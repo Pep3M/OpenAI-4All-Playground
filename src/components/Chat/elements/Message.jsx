@@ -44,8 +44,73 @@ const MessagePaper = styled(Paper)`
   }
 `;
 
-const Message = ({ text = "", type = "question"}) => {
+const MessageContent = ({ data }) => {
+  return (
+    <Box>
+      {data.map((item, i) => {
+        switch (item.type) {
+          case "code":
+            return (
+              <pre>
+                <code>{item.content}</code>
+              </pre>
+            );
+
+          default:
+            return item.content ? (
+              <Typography key={i} variant="body1" style={{ zIndex: 2 }}>
+                {`${item.content}`}
+              </Typography>
+            ) : (
+              <br />
+            );
+        }
+      })}
+    </Box>
+  );
+};
+
+const Message = ({ text = "", type = "question" }) => {
   if (!text && type !== "loader") return <></>;
+
+  const formatText = () => {
+    //const reParse = `${text.trim().split("\n").join("\n")}`;
+    let string = text.trim();
+    const reg = /<code>(.*?)<\/code>/gs;
+
+    const match = string.match(reg) || [];
+    const splited = string.split(reg).filter((item) => item);
+    let isCode = string.search(reg) === 0;
+
+    let result = [];
+
+    splited.forEach((item) => {
+      result.push({
+        type: isCode ? "code" : 'text',
+        content: item
+      });
+      isCode = !isCode;
+    });
+
+    console.log(`Hay ${match.length} bloques de codigo:`, text);
+    
+    /* let result = match.map((val) => {
+      if (val.includes("<code>")) {
+        return {
+          type: "code",
+          content: val.replace(/<code>|<\/code>/g, "")
+        };
+      } else {
+        return {
+          type: "text",
+          content: val
+        };
+      }
+    }); */
+    return result;
+  };
+
+  //console.log("formatText", formatText());
   return (
     <Box
       sx={{
@@ -56,13 +121,11 @@ const Message = ({ text = "", type = "question"}) => {
         justifyContent: type === "question" ? "flex-start" : "flex-end"
       }}
     >
-      <MessagePaper type={type} >
+      <MessagePaper type={type}>
         {type === "loader" ? (
           <DotMovement />
         ) : (
-          <Typography variant="body1" style={{ zIndex: 2 }}>
-            {text}
-          </Typography>
+          <MessageContent data={formatText()} />
         )}
       </MessagePaper>
     </Box>
