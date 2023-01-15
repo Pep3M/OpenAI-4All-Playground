@@ -3,7 +3,7 @@ import axios from "axios";
 
 const URL_API = "https://openai4all.onrender.com/";
 
-const codeRequest = '. Si tu respuesta incluyo algo con codigo, redealo con un <code> y </code>, si no ignora esto'
+const codeRequest = '. Si tu respuesta incluye algo con codigo, rodealo con un <code> y </code>, si no ignora esto'
 
 function useTextCompletion() {
   const [input, setInput] = useState({});
