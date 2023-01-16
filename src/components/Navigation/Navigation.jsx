@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import DrawerMenu from "./Drawer/DrawerMenu";
 import NavCard from "./NavCard/NavCard";
+import { CodeOff } from "@mui/icons-material";
 
 const modules = [
   {
@@ -23,7 +24,12 @@ const modules = [
     code: "imageGeneration",
     name: "Generador de imágenes",
     icon: <ImageSearchIcon />
-  }
+  },
+  /* {
+    code: "codeGeneration",
+    name: "Generador de código",
+    icon: <CodeOff />
+  } */
 ];
 
 const NavigationItems = ({ selected, close }) => {

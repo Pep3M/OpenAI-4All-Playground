@@ -12,6 +12,7 @@ import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import { useEffect, useRef, useState } from "react";
 import Message from "./elements/Message";
 import useTextCompletion from "../../hooks/useTextCompletion";
+import Toast from "../Toast/Toast";
 
 const Chat = () => {
   //states
@@ -20,6 +21,7 @@ const Chat = () => {
     answer: ""
   });
   const [dialog, setDialog] = useState([]);
+  const [inputText, setInputText] = useState(false);
   const refInputQuestion = useRef(null);
 
   //custom hooks
@@ -35,23 +37,21 @@ const Chat = () => {
   };
 
   const handleTextChange = (e) => {
-    setState((prev) => ({
-      ...prev,
-      question: e.target.value
-    }));
+    const text = refInputQuestion.current.value
+    refInputQuestion.current.value = text.substring(0, 150)
+    if (text && !inputText) setInputText(true)
+    if (!text && inputText) setInputText(false)    
   };
 
   const send = () => {
-    const textToSend = state.question;
+    const textToSend = refInputQuestion.current.value;
 
     refInputQuestion.current.focus();
     if (textToSend === "") return;
 
     //reset question input
-    setState((prev) => ({
-      ...prev,
-      question: ""
-    }));
+    refInputQuestion.current.value = ''
+    setInputText(false)
 
     //add new question
     let newDialog = [...dialog];
@@ -147,20 +147,20 @@ const Chat = () => {
           type="text"
           color="primary"
           autoComplete="off"
-          value={state.question}
           onChange={handleTextChange}
           onKeyUp={(e) => {
             if (e.key === "Enter") send();
           }}
           endAdornment={
             <InputAdornment position="end">
-              <IconButton aria-label="send text" onClick={send} edge="end">
+              <IconButton aria-label="send text" onClick={send} edge="end" disabled={!inputText}>
                 <SendRoundedIcon />
               </IconButton>
             </InputAdornment>
           }
         />
       </FormControl>
+      {error && <Toast message='No se pudo acceder al servicio' />}
     </Card>
   );
 };

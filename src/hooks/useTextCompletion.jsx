@@ -3,25 +3,28 @@ import axios from "axios";
 
 const URL_API = "https://openai4all.onrender.com/";
 
-const codeRequest = '. Si tu respuesta incluye algo con codigo, rodealo con un <code> y </code>, si no ignora esto'
+const codeRequest = '. Please mark the code blocks with triple backticks if exists.'
 
-function useTextCompletion() {
+function useTextCompletion(programmer=true) {
   const [input, setInput] = useState({});
   const [response, setResponse] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function sendMessageToChatGPT(message) {
+    async function sendMessageToChatGPT() {
       const idInput = input.id;
       setLoading(true);
       setError(false);
+
+      const message = programmer ? input.text + codeRequest : input.text
+      
       try {
         const options = {
           method: "POST",
           url: URL_API + "v1/completions",
           headers: { "Content-Type": "application/json" },
-          data: { message: input.text + codeRequest }
+          data: { message }
         };
         const response = await axios.request(options);
 

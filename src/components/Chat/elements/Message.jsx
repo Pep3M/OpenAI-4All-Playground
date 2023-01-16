@@ -1,11 +1,11 @@
 import { Box, Paper, Typography } from "@mui/material";
 import React from "react";
-import styled, { keyframes } from "styled-components";
+import styled /* , { keyframes } */ from "styled-components";
 import { colorPrimary, colorSecundary } from "../../../styles/styles";
 import DotMovement from "../../loaders/DotMovement";
 import BlockCode from "./BlockCode";
 
-const riseMsgAnimation = keyframes`
+/* const riseMsgAnimation = keyframes`
   0% {
     top: 20px;
     opacity: 0;
@@ -14,7 +14,7 @@ const riseMsgAnimation = keyframes`
     top: 0;
     opacity: 1;
   }
-`;
+`; */
 /* animation-name: ${riseMsgAnimation};
   animation-duration: 0.5s;
   animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1); */
@@ -45,21 +45,32 @@ const MessagePaper = styled(Paper)`
   }
 `;
 
+const removeInitialDot = (string) => {
+  let splited = string.split("\n");
+  if (splited[0] === ".") splited.shift();
+  let joined = splited.join("\n");
+  if (joined.substring(0, 2) === ". ") joined = joined.substring(2);
+  return joined;
+};
+
 const MessageContent = ({ data }) => {
   return (
-    <Box>
+    <Box sx={{ p: 1 }}>
       {data.map((item, i) => {
         switch (item.type) {
           case "code":
-            return <BlockCode code={item.content} />
+            return <BlockCode key={i} code={item.content} />;
 
           default:
-            return item.content ? (
-              <Typography key={i} variant="body1" style={{ zIndex: 2 }}>
-                {`${item.content}`}
-              </Typography>
-            ) : (
-              <br />
+            const lines = item.content.split("\n");
+            return lines.map((line, i) =>
+              line ? (
+                <Typography key={i} variant="body1" style={{ zIndex: 2 }}>
+                  {line}
+                </Typography>
+              ) : (
+                <br key={i} />
+              )
             );
         }
       })}
@@ -72,17 +83,18 @@ const Message = ({ text = "", type = "question" }) => {
 
   const formatText = () => {
     let string = text.trim();
-    const reg = /<code>(.*?)<\/code>/gs;
+    //const reg = /<code>(.*?)<\/code>/gs;  // utilizando <code>
+    const reg = /(?<=```)[\s\S]*(?=```)/g   // utilizando ```
 
-    const splited = string.split(reg).filter((item) => item);
-    let isCode = string.search(reg) === 0;
+    const splited = string.split(/```/g).filter((item) => item);
+    let isCode = string.search(/```/g) === 0;
 
     let result = [];
 
     splited.forEach((item) => {
       result.push({
-        type: isCode ? "code" : 'text',
-        content: item
+        type: isCode ? "code" : "text",
+        content: removeInitialDot(item)
       });
       isCode = !isCode;
     });

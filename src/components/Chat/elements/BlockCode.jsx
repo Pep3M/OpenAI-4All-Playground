@@ -19,7 +19,7 @@ const BlockCode = ({ code }) => {
         bgcolor: 'RGB(40,44,52)',
         paddingInline: 1,
         mt: 2,
-        mb: 1
+        mb: 2
       }}>
         <SyntaxHighlighter language={language} style={atomOneDark}>
           {code}
