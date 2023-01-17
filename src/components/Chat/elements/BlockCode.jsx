@@ -18,8 +18,7 @@ const BlockCode = ({ code }) => {
       <Card sx={{
         bgcolor: 'RGB(40,44,52)',
         paddingInline: 1,
-        mt: 2,
-        mb: 2
+        m: 0
       }}>
         <SyntaxHighlighter language={language} style={atomOneDark}>
           {code}
@@ -30,7 +29,7 @@ const BlockCode = ({ code }) => {
           width: 40,
           height: 40,
           position: "absolute",
-          top: -30,
+          top: 0,
           right: 0,
           display: "flex",
           justifyContent: "center",

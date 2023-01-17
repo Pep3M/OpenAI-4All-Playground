@@ -20,7 +20,7 @@ import BlockCode from "./BlockCode";
   animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1); */
 
 const MessagePaper = styled(Paper)`
-  padding: 8px;
+  padding: 4px;
   color: white;
   position: relative;
   min-width: 20px;

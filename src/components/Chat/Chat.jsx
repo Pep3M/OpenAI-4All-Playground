@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
-  Card,
   InputAdornment,
   IconButton,
   FormControl,
   InputLabel,
   OutlinedInput,
-  Container
+  Container,
+  useMediaQuery
 } from "@mui/material";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import { useEffect, useRef, useState } from "react";
@@ -15,11 +15,9 @@ import useTextCompletion from "../../hooks/useTextCompletion";
 import Toast from "../Toast/Toast";
 
 const Chat = () => {
+  const mobileBreakpoint = useMediaQuery("(max-width: 599px)");
+
   //states
-  const [state, setState] = useState({
-    question: "",
-    answer: ""
-  });
   const [dialog, setDialog] = useState([]);
   const [inputText, setInputText] = useState(false);
   const refInputQuestion = useRef(null);
@@ -37,10 +35,10 @@ const Chat = () => {
   };
 
   const handleTextChange = (e) => {
-    const text = refInputQuestion.current.value
-    refInputQuestion.current.value = text.substring(0, 150)
-    if (text && !inputText) setInputText(true)
-    if (!text && inputText) setInputText(false)    
+    const text = refInputQuestion.current.value;
+    refInputQuestion.current.value = text.substring(0, 150);
+    if (text && !inputText) setInputText(true);
+    if (!text && inputText) setInputText(false);
   };
 
   const send = () => {
@@ -50,8 +48,8 @@ const Chat = () => {
     if (textToSend === "") return;
 
     //reset question input
-    refInputQuestion.current.value = ''
-    setInputText(false)
+    refInputQuestion.current.value = "";
+    setInputText(false);
 
     //add new question
     let newDialog = [...dialog];
@@ -81,7 +79,7 @@ const Chat = () => {
           type: "response"
         });
       });
-      
+
       setDialog(newDialog);
     }
 
@@ -104,25 +102,13 @@ const Chat = () => {
   }, [loading]);
 
   return (
-    <Card
-      sx={{
-        width: "90%",
-        height: "calc(100% - 48px)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        minWidth: 275,
-        maxWidth: 1000,
-        padding: 3,
-        marginInline: 3
-      }}
-    >
+    <>
       <Container
         sx={{
           flexGrow: 1,
           display: "flex",
           flexDirection: "column-reverse",
-          border: "solid 1px #c4c4c4",
+          border: mobileBreakpoint ? "none" : "solid 1px #c4c4c4",
           borderRadius: 1,
           p: 2,
           overflowY: "auto"
@@ -136,7 +122,13 @@ const Chat = () => {
       </Container>
 
       <FormControl
-        sx={{ flexShrink: 0, mt: 2, width: "100%", backgroundColor: "white" }}
+        sx={{
+          flexShrink: 0,
+          mt: 2,
+          width: mobileBreakpoint ? "calc(100% - 32px)" : "100%",
+          backgroundColor: "white",
+          marginInline: mobileBreakpoint ? 2 : 0
+        }}
         variant="outlined"
       >
         <InputLabel htmlFor="question">Escríbele algo a la IA</InputLabel>
@@ -153,15 +145,20 @@ const Chat = () => {
           }}
           endAdornment={
             <InputAdornment position="end">
-              <IconButton aria-label="send text" onClick={send} edge="end" disabled={!inputText}>
+              <IconButton
+                aria-label="send text"
+                onClick={send}
+                edge="end"
+                disabled={!inputText}
+              >
                 <SendRoundedIcon />
               </IconButton>
             </InputAdornment>
           }
         />
       </FormControl>
-      {error && <Toast message='No se pudo acceder al servicio' />}
-    </Card>
+      {error && <Toast message="No se pudo acceder al servicio" />}
+    </>
   );
 };
 

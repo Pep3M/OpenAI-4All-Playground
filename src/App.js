@@ -6,21 +6,21 @@ import {
   useMediaQuery
 } from "@mui/material";
 import { useState } from "react";
-import Chat from "./components/Chat/Chat";
 import ImageGenerator from "./components/ImageGenerator/ImageGenerator";
 import MenuIcon from "@mui/icons-material/Menu";
 import Navigation from "./components/Navigation/Navigation";
+import ChatContainer from "./components/Chat/ChatContainer";
 
 const ShowModule = ({ moduleAct }) => {
   switch (moduleAct) {
     case "textCompletion":
-      return <Chat />;
+      return <ChatContainer />;
 
     case "imageGeneration":
       return <ImageGenerator />;
 
     default:
-      return <Chat />;
+      return <ChatContainer />;
   }
 };
 
@@ -28,7 +28,8 @@ function App() {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [moduleActive, setModuleActive] = useState("textCompletion");
 
-  const mobileBreakpoint = useMediaQuery("(max-width: 1000px)");
+  const mobileBreakpoint = useMediaQuery("(max-width: 599px)");
+  const tabletBreakpoint = useMediaQuery("(max-width: 999px)");
 
   return (
     <div
@@ -45,7 +46,7 @@ function App() {
           aria-label="open drawer"
           onClick={() => setOpenDrawer(true)}
           edge="start"
-          sx={{ mr: 2, display: mobileBreakpoint ? "" : "none" }}
+          sx={{ mr: 2, display: tabletBreakpoint ? "" : "none" }}
         >
           <MenuIcon />
         </IconButton>
@@ -62,7 +63,7 @@ function App() {
 
       <Box
         sx={{
-          padding: 2,
+          padding: mobileBreakpoint ? 0 : 2,
           display: "flex",
           alignItems: "center",
           height: "calc(100% - 100px)",
@@ -83,18 +84,20 @@ function App() {
             open={openDrawer}
             selected={(c) => setModuleActive(c)}
             close={setOpenDrawer}
-            drawerMode={mobileBreakpoint}
+            drawerMode={tabletBreakpoint}
           />
           <ShowModule moduleAct={moduleActive} />
         </Box>
 
-        <Typography
-          variant="subtitle2"
-          color="primary"
-          sx={{ pt: 2, flexShrink: 0 }}
-        >
-          Powered by <a href="https://github.com/Pep3M">Pep3M</a>
-        </Typography>
+        { !tabletBreakpoint && 
+          <Typography
+            variant="subtitle2"
+            color="primary"
+            sx={{ pt: 2, flexShrink: 0 }}
+          >
+            Powered by <a href="https://github.com/Pep3M">Pep3M</a>
+          </Typography>
+        }
       </Box>
     </div>
   );
