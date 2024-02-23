@@ -10,6 +10,7 @@ import Chat from "./components/Chat/Chat";
 import ImageGenerator from "./components/ImageGenerator/ImageGenerator";
 import MenuIcon from "@mui/icons-material/Menu";
 import Navigation from "./components/Navigation/Navigation";
+import KeySaver from "./components/Navigation/KeySaver";
 
 const ShowModule = ({ moduleAct }) => {
   switch (moduleAct) {
@@ -58,6 +59,26 @@ function App() {
             marginRight: 25
           }}
         />
+
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flex: 1,
+          }}
+        >
+          {!mobileBreakpoint && <div>
+            <Typography variant="h6" color="primary">
+              GPT-3 Playground
+            </Typography>
+            <Typography variant="subtitle1" color="primary" mt={-0.5}>
+              OpenAI GPT-3 Playground
+            </Typography>
+          </div>}
+
+          <KeySaver />
+        </Box>
       </Toolbar>
 
       <Box
@@ -93,7 +114,7 @@ function App() {
           color="primary"
           sx={{ pt: 2, flexShrink: 0 }}
         >
-          Powered by <a href="https://github.com/Pep3M">Pep3M</a>
+          by <a href="https://github.com/Pep3M">Pep3M</a> with ❤️
         </Typography>
       </Box>
     </div>

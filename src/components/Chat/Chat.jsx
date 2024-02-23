@@ -16,10 +16,6 @@ import Toast from "../Toast/Toast";
 
 const Chat = () => {
   //states
-  const [state, setState] = useState({
-    question: "",
-    answer: ""
-  });
   const [dialog, setDialog] = useState([]);
   const [inputText, setInputText] = useState(false);
   const refInputQuestion = useRef(null);

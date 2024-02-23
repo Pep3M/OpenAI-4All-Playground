@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const URL_API = "https://openai4all.onrender.com/";
+// const URL_API = "https://openai4all.onrender.com/";
+const URL_API = process.env.REACT_APP_DOMAIN;
 
 const codeRequest = '. Please mark the code blocks with triple backticks if exists.'
 
@@ -18,13 +19,14 @@ function useTextCompletion(programmer=true) {
       setError(false);
 
       const message = programmer ? input.text + codeRequest : input.text
+      const apiKey = localStorage.getItem("openai_key");
       
       try {
         const options = {
           method: "POST",
           url: URL_API + "v1/completions",
           headers: { "Content-Type": "application/json" },
-          data: { message }
+          data: { message, apiKey }
         };
         const response = await axios.request(options);
 
@@ -55,7 +57,7 @@ function useTextCompletion(programmer=true) {
     }
 
     if (input.text) sendMessageToChatGPT(input);
-  }, [input]);
+  }, [input, programmer]);
 
   return { response, loading, error, setInput };
 }
