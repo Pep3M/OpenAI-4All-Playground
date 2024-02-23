@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 // const URL_API = "https://openai4all.onrender.com/";
-const URL_API = process.env.REACT_APP_DOMAIN;
+const URL_API = process.env.REACT_APP_DOMAIN || "https://openai4all.onrender.com/";
 
 const codeRequest = '. Please mark the code blocks with triple backticks if exists.'
 
